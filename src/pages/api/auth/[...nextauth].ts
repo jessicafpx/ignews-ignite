@@ -52,8 +52,8 @@ export default NextAuth({
       }
 
     },
-    async signIn(user, account, profile) {
-      const { email } = user.user
+    async signIn({user, account, profile}) {
+      const { email } = user
 
       try {
         await fauna.query(
@@ -62,7 +62,7 @@ export default NextAuth({
               q.Exists(
                 q.Match(
                   q.Index('user_by_email'),
-                  q.Casefold(user.user.email)
+                  q.Casefold(user.email)
                 )
               )
             ),
@@ -73,7 +73,7 @@ export default NextAuth({
             q.Get(
               q.Match(
                 q.Index('user_by_email'),
-                q.Casefold(user.user.email)
+                q.Casefold(user.email)
               )
             )
           )

@@ -15,6 +15,16 @@ interface PostProps {
   }
 }
 
+type ResponseProps = {
+  last_publication_date: string;
+  data: {
+    slug: string;
+    title: string;
+    content: string;
+    updatedAt: string;
+  }
+}
+
 export default function Posts({ post }: PostProps) {
   return (
     <>
@@ -52,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 
   const prismic = getPrismicClient(req);
 
-  const response = await prismic.getByUID('post', String(slug), {});
+  const response: ResponseProps = await prismic.getByUID('post', String(slug), {});
 
   const post = {
     slug,
